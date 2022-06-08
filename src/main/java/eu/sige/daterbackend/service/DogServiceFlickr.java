@@ -27,7 +27,11 @@ public class DogServiceFlickr implements DogService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return response.toString();
+        try {
+            return response.body().string();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String getDogUrl() {
