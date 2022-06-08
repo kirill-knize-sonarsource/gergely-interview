@@ -2,6 +2,7 @@ package eu.sige.daterbackend.controller;
 
 import eu.sige.daterbackend.service.DogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ public class WebController {
     }
 
     @GetMapping("dogs")
+    @CrossOrigin(origins = "*") // TODO Fix this
     public String getDogs() {
         return dogService.getDogUrl();
     }
