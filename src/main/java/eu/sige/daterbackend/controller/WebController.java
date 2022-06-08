@@ -15,7 +15,7 @@ public class WebController {
         this.dogService = dogService;
     }
 
-    @GetMapping("/dogs")
+    @GetMapping("dogs")
     public String getDogs() {
         return dogService.getDogUrl();
     }
