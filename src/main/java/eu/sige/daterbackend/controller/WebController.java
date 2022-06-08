@@ -19,6 +19,6 @@ public class WebController {
     @GetMapping("dogs")
     @CrossOrigin(origins = "*") // TODO Fix this
     public String getDogs() {
-        return dogService.getDogUrl();
+        return dogService.getDogApi();
     }
 }
