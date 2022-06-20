@@ -1,6 +1,7 @@
 package eu.sige.daterbackend.service;
 
 import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +29,19 @@ public class DogServiceFlickr implements DogService {
             throw new RuntimeException(e);
         }
         try {
-            return response.body().string();
+            String dogApiResponse = response.body().string();
+            dogApiResponse = createValidJson(dogApiResponse);
+            return dogApiResponse;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @NotNull
+    private String createValidJson(String dogApiResponse) {
+        dogApiResponse = dogApiResponse.substring(15);
+        dogApiResponse = dogApiResponse.substring(0, dogApiResponse.length() - 1);
+        return dogApiResponse;
     }
 
     private String getDogUrl() {
@@ -41,6 +51,8 @@ public class DogServiceFlickr implements DogService {
         urlBuilder.addQueryParameter("tagmode", tagmode);
         urlBuilder.addQueryParameter("tags", getTags(tagmode));
         urlBuilder.addQueryParameter("format", "json");
+
+        System.out.println(urlBuilder.build().toString());
 
         return urlBuilder.build().toString();
     }
