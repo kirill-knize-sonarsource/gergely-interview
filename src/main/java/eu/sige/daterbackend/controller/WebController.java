@@ -20,7 +20,7 @@ public class WebController {
     }
 
     @GetMapping(value = "dogs", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin(origins = "*") // TODO Fix this
+    @CrossOrigin(origins = {"https://www.simongergely.eu", "https://gizsgugya.simongergely.eu/"})
     public ResponseEntity<String> getDogs() {
         String dogApiResponse = dogService.getDogApi();
         return new ResponseEntity<>(dogApiResponse, HttpStatus.OK);
