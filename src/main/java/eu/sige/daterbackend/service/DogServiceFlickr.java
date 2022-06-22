@@ -13,9 +13,8 @@ import java.util.Random;
 @Service
 public class DogServiceFlickr implements DogService {
 
-    final HttpService httpService;
-
-    final private Random random;
+    private final HttpService httpService;
+     private final Random random;
 
     @Autowired
     public DogServiceFlickr(HttpService httpService) {
@@ -35,14 +34,12 @@ public class DogServiceFlickr implements DogService {
         try (
                 Response response = call.execute()
         ) {
-            {
-                String dogApiResponse = "";
-                if (response.body() != null) {
-                    dogApiResponse = response.body().string();
-                    dogApiResponse = createValidJson(dogApiResponse);
-                }
-                return dogApiResponse;
+            String dogApiResponse = "";
+            if (response.body() != null) {
+                dogApiResponse = response.body().string();
+                dogApiResponse = createValidJson(dogApiResponse);
             }
+            return dogApiResponse;
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
