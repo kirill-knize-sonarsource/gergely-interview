@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Random;
 
 @Service
@@ -13,27 +15,36 @@ public class DogServiceFlickr implements DogService {
 
     final HttpService httpService;
 
+    final private Random random;
+
     @Autowired
     public DogServiceFlickr(HttpService httpService) {
         this.httpService = httpService;
+        try {
+            this.random = SecureRandom.getInstanceStrong();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public String getDogApi() {
         Request request = new Request.Builder().url(getDogUrl()).build();
         Call call = httpService.getOkHttpClient().newCall(request);
-        Response response = null;
-        try {
-            response = call.execute();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            String dogApiResponse = response.body().string();
-            dogApiResponse = createValidJson(dogApiResponse);
-            return dogApiResponse;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+        try (
+                Response response = call.execute()
+        ) {
+            {
+                String dogApiResponse = "";
+                if (response.body() != null) {
+                    dogApiResponse = response.body().string();
+                    dogApiResponse = createValidJson(dogApiResponse);
+                }
+                return dogApiResponse;
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -45,21 +56,22 @@ public class DogServiceFlickr implements DogService {
     }
 
     private String getDogUrl() {
-        HttpUrl.Builder urlBuilder
-                = HttpUrl.parse("https://www.flickr.com/services/feeds/photos_public.gne").newBuilder();
+        HttpUrl url = HttpUrl.parse("https://www.flickr.com/services/feeds/photos_public.gne");
+        if (url == null) {
+            return "";
+        }
+
+        HttpUrl.Builder urlBuilder = url.newBuilder();
         String tagmode = getTagmodeWithWeigh();
         urlBuilder.addQueryParameter("tagmode", tagmode);
         urlBuilder.addQueryParameter("tags", getTags(tagmode));
         urlBuilder.addQueryParameter("format", "json");
-
-        System.out.println(urlBuilder.build().toString());
 
         return urlBuilder.build().toString();
     }
 
     private String getTagmodeWithWeigh() {
         String[] tagModsWeighted = {"all", "all", "any"};
-        Random random = new Random();
         return tagModsWeighted[random.nextInt(3)];
     }
 
