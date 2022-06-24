@@ -8,24 +8,20 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 
 @Service
 public class DogServiceFlickr implements DogService {
 
     private final HttpService httpService;
     private final Random random;
-    private final Set<String> cache;
 
-    // Just a hint, can be more.
-    private static final int CACHE_CAPACITY = 2;
+    private final CacheService<String> cacheService;
 
     @Autowired
-    public DogServiceFlickr(HttpService httpService) {
+    public DogServiceFlickr(HttpService httpService, CacheService<String> cacheService) {
         this.httpService = httpService;
-        this.cache = new HashSet<>(CACHE_CAPACITY);
+        this.cacheService = cacheService;
         refillCache().start();
         try {
             this.random = SecureRandom.getInstanceStrong();
@@ -36,8 +32,7 @@ public class DogServiceFlickr implements DogService {
 
     @Override
     public String getDogApi() {
-        String apiResponse = cache.iterator().next();
-        cache.remove(apiResponse);
+        String apiResponse = cacheService.getAndRemoveElement();
         refillCache().start();
         return apiResponse;
     }
@@ -94,10 +89,10 @@ public class DogServiceFlickr implements DogService {
         return "dachshund, wiener dog, sausage dog";
     }
 
-    private Thread refillCache() {
+    public Thread refillCache() {
         return new Thread(() -> {
-            while (cache.size() < CACHE_CAPACITY) {
-                cache.add(getDogApiFromFlickr());
+            while (cacheService.getActualSize() < CacheService.CACHE_CAPACITY) {
+                cacheService.add(getDogApiFromFlickr());
             }
         });
     }

@@ -19,4 +19,5 @@ public class CustomErrorController implements ErrorController {
         return new ResponseEntity<>(responseCode, httpStatus);
     }
 
+
 }
