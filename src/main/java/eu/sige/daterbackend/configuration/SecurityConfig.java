@@ -23,6 +23,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests(authz -> authz.anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
+        http.cors();
         return http.build();
     }
 
