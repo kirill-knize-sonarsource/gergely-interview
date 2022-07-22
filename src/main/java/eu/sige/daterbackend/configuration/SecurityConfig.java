@@ -27,6 +27,9 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /*
+    This setting is for test proposes only.
+     */
     @Bean
     public UserDetailsService userDetailsService() {
 
