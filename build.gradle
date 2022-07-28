@@ -6,7 +6,7 @@ plugins {
 
 group = 'eu.sige'
 version = '0.1'
-sourceCompatibility = '17'
+sourceCompatibility = '18'
 
 repositories {
     mavenCentral()
