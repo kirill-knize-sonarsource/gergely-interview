@@ -91,7 +91,7 @@ public class DogServiceFlickr implements DogService {
 
     public Thread refillCache() {
         return new Thread(() -> {
-            while (cacheService.getActualSize() < CacheService.CACHE_CAPACITY) {
+            while (cacheService.getActualSize() <= CacheService.CACHE_CAPACITY) {
                 cacheService.add(getDogApiFromFlickr());
             }
         });
