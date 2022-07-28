@@ -27,7 +27,7 @@ public class WebController {
     @GetMapping(value = "dogs", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = {"https://www.simongergely.eu", "https://gizsgugya.simongergely.eu/"})
     public ResponseEntity<String> getDogs() {
-        accessRepository.save(new AccessData());
+//        accessRepository.save(new AccessData());
         String dogApiResponse = dogService.getDogApi();
         return new ResponseEntity<>(dogApiResponse, HttpStatus.OK);
     }
