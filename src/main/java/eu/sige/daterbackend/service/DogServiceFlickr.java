@@ -2,6 +2,8 @@ package eu.sige.daterbackend.service;
 
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,8 @@ import java.util.Random;
 
 @Service
 public class DogServiceFlickr implements DogService {
+
+    private final Logger log = LoggerFactory.getLogger(DogServiceFlickr.class);
 
     private final HttpService httpService;
     private final Random random;
@@ -38,6 +42,7 @@ public class DogServiceFlickr implements DogService {
     }
 
     private String getDogApiFromFlickr() {
+        log.info("getDogApiFromFlickr started");
         Request request = new Request.Builder().url(getDogUrl()).build();
         Call call = httpService.getOkHttpClient().newCall(request);
 
@@ -90,6 +95,7 @@ public class DogServiceFlickr implements DogService {
     }
 
     public Thread refillCache() {
+        log.info("refillCache called");
         return new Thread(() -> {
             while (cacheService.getActualSize() <= CacheService.CACHE_CAPACITY) {
                 cacheService.add(getDogApiFromFlickr());
