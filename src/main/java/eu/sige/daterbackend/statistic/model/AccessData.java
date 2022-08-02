@@ -11,9 +11,14 @@ public class AccessData {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
 
+    @Basic(fetch = FetchType.LAZY)
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date access;
+
+    public Date getAccess() {
+        return access;
+    }
 
     @PrePersist
     private void onCreate(){
