@@ -41,7 +41,7 @@ public class DogServiceFlickr implements DogService {
         try {
             apiResponse = cacheService.getAndRemoveElement();
         } catch (NoItemInCacheException e) {
-            log.info(e.getMessage(), e);
+            log.info("There are no items in the cache");
             apiResponse = getDogApiFromFlickr();
         }
         refillCache().start();
