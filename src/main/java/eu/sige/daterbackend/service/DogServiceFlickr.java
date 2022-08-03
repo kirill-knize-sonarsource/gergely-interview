@@ -30,6 +30,7 @@ public class DogServiceFlickr implements DogService {
         try {
             this.random = SecureRandom.getInstanceStrong();
         } catch (NoSuchAlgorithmException e) {
+            log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
@@ -62,8 +63,9 @@ public class DogServiceFlickr implements DogService {
             }
             return dogApiResponse;
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            log.error(ex.getMessage(), ex);
         }
+        return "";
     }
 
     @NotNull
