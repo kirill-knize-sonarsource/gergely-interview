@@ -36,7 +36,13 @@ public class DogServiceFlickr implements DogService {
 
     @Override
     public String getDogApi() {
-        String apiResponse = cacheService.getAndRemoveElement();
+        String apiResponse = null;
+        try {
+            apiResponse = cacheService.getAndRemoveElement();
+        } catch (NoItemInCacheException e) {
+            log.info(e.getMessage(), e);
+            apiResponse = getDogApiFromFlickr();
+        }
         refillCache().start();
         return apiResponse;
     }

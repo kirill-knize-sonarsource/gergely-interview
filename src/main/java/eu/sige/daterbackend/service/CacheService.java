@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.NoSuchElementException;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
@@ -24,8 +25,13 @@ public class CacheService<T> {
         cache.add(t);
     }
 
-    public T getAndRemoveElement() {
-        return cache.pop();
+    public T getAndRemoveElement() throws NoItemInCacheException {
+        try {
+            return cache.pop();
+        } catch (NoSuchElementException e) {
+            throw new NoItemInCacheException(e);
+        }
+
     }
 
     public int getActualSize() {
