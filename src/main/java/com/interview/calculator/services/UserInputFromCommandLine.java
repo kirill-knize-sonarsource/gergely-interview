@@ -13,6 +13,6 @@ public class UserInputFromCommandLine implements UserInput {
 
     @Override
     public String getExpressionFromUser() {
-        return scanner.next();
+        return scanner.nextLine();
     }
 }

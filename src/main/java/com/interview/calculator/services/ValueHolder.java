@@ -8,6 +8,8 @@ import java.util.List;
 public interface ValueHolder {
 
     void saveValue(BigDecimal value);
+
+    // Should maintain insertion order
     List<BigDecimal> retriveSavedValues();
     void deleteValues();
 }
