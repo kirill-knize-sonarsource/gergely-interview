@@ -1,7 +1,5 @@
 package com.interview.calculator.enums;
 
-import java.math.BigDecimal;
-
 public enum Expressions {
     ADD("ADD"),
     SUBTRACT("SUBTRACT"),
