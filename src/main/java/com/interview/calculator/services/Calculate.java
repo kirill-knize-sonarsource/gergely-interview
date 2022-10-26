@@ -16,10 +16,12 @@ public class Calculate {
 
     public BigDecimal calculate(Operation operation) {
         BigDecimal newData = new BigDecimal(0);
+
         if (operation.getOperator().equals(Expressions.ADD)) {
             newData = valueHolder.lastValue().add(operation.getOperand());
             valueHolder.saveValue(newData);
         }
+
         return newData;
     }
 }

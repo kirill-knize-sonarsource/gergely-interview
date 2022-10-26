@@ -22,6 +22,7 @@ public class InMemoryValueHolder implements ValueHolder{
         for (BigDecimal decimal : savedValues) {
             System.out.println(decimal);
         }
+
         deleteValues();
     }
 

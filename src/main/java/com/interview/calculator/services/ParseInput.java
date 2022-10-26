@@ -15,8 +15,10 @@ public class ParseInput {
         for (Expressions expression : Expressions.values()) {
             if (userInput.contains(expression.getCommand())) {
                 operation.setOperator(expression);
+                
                 Pattern p = Pattern.compile("(\\d+)");
                 Matcher m = p.matcher(userInput);
+
                 while(m.find())
                 {
                     operation.setOperand(BigDecimal.valueOf(Long.parseLong(m.group(1))));
