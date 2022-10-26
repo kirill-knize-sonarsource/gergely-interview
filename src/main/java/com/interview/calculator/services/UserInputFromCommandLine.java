@@ -1,11 +1,9 @@
 package com.interview.calculator.services;
 
 
-import org.springframework.stereotype.Component;
-
 import java.util.Scanner;
 
-@Component
+
 public class UserInputFromCommandLine implements UserInput {
 
 

@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 
 public enum Expressions {
     ADD("ADD"),
-    SUBTRACT("SUBTRACT");
+    SUBTRACT("SUBTRACT"),
+    DISPLAY("DISPLAY");
 
     private String command;
 
