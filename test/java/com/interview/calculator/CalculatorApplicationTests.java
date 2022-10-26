@@ -1,13 +1,13 @@
-package eu.sige.daterbackend;
+package com.interview.calculator;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DaterAkkaApplicationTests {
+class CalculatorApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }
