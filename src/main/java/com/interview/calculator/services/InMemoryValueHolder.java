@@ -7,10 +7,11 @@ import java.util.List;
 public class InMemoryValueHolder implements ValueHolder{
 
     private static List<BigDecimal> savedValues;
+    private static BigDecimal lastValue;
 
     static {
         savedValues =  new ArrayList<>();
-        savedValues.add(new BigDecimal(0));
+        lastValue = new BigDecimal(0);
     }
     @Override
     public void saveValue(BigDecimal value) {
@@ -23,22 +24,30 @@ public class InMemoryValueHolder implements ValueHolder{
             System.out.println(decimal);
         }
 
-        deleteValues();
+        deleteUnusedValues();
     }
 
     @Override
-    public void deleteValues() {
+    public void deleteUnusedValues() {
+        lastValue = lastValue();
         savedValues = new ArrayList<>();
-        savedValues.add(new BigDecimal(0));
     }
 
     @Override
     public BigDecimal lastValue() {
+        if (savedValues.isEmpty()) {
+            return lastValue;
+        }
         return savedValues.get(savedValues.size()-1);
     }
 
     @Override
     public int size() {
         return savedValues.size();
+    }
+
+    @Override
+    public void deleteAllValues() {
+        savedValues = new ArrayList<>();
     }
 }

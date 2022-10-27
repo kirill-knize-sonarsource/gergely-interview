@@ -8,7 +8,8 @@ public interface ValueHolder {
 
     // Should maintain insertion order
     void printSavedValues();
-    void deleteValues();
+    void deleteUnusedValues();
     BigDecimal lastValue();
     int size();
+    void deleteAllValues();
 }
